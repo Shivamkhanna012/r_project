@@ -1,0 +1,66 @@
+# ✅ Install & Load required packages
+install.packages("dplyr")
+install.packages("ggplot2")
+library(dplyr)
+library(ggplot2)
+
+# ✅ Create dummy student names
+student_names <- c("Aarav Sharma", "Isha Verma", "Kunal Joshi", "Priya Mehra", "Rohan Kapoor",
+                   "Sneha Nair", "Arjun Reddy", "Meera Iyer", "Vikram Singh", "Anjali Patel",
+                   "Rahul Das", "Pooja Thakur", "Aman Jain", "Diya Malhotra", "Nikhil Rao",
+                   "Simran Kaur", "Yash Mittal", "Tanya Gupta", "Dev Bhatt", "Neha Dubey")
+
+# ✅ Create dummy dataset
+student_data <- data.frame(
+  student_id = 1:20,
+  name = student_names,
+  study_hours = c(1.5, 2, 3, 4.5, 5, 2, 2.5, 3, 3.5, 4,
+                  1, 2.2, 3.3, 4.1, 5, 3.8, 4.6, 3.1, 2.8, 1.9),
+  attendance = sample(60:100, 20, replace = TRUE),
+  internal_score = sample(20:30, 20, replace = TRUE),
+  final_score = sample(40:100, 20, replace = TRUE),
+  participation = sample(5:10, 20, replace = TRUE)
+)
+
+# ✅ View first few rows
+head(student_data)
+
+# ✅ Summary Statistics
+summary(student_data)
+
+# ✅ Correlation Analysis
+cat("Correlation between Study Hours and Final Score:\n")
+print(cor(student_data$study_hours, student_data$final_score))
+
+cat("Correlation between Attendance and Final Score:\n")
+print(cor(student_data$attendance, student_data$final_score))
+
+# ✅ Visualization 1: Study Hours vs Final Score
+ggplot(student_data, aes(x = study_hours, y = final_score)) +
+  geom_point(color = "blue") +
+  labs(title = "Study Hours vs Final Exam Score", x = "Study Hours", y = "Final Score")
+
+# ✅ Visualization 2: Attendance vs Final Score
+ggplot(student_data, aes(x = attendance, y = final_score)) +
+  geom_point(color = "darkorange") +
+  labs(title = "Attendance vs Final Exam Score", x = "Attendance (%)", y = "Final Score")
+
+# ✅ Visualization 3: Histogram of Final Score
+hist(student_data$final_score, col = 'skyblue', main = "Histogram of Final Scores",
+     xlab = "Final Score", ylab = "Frequency", breaks = 8)
+
+# ✅ Visualization 4: Boxplot of Final Score
+boxplot(student_data$final_score, col = 'orange', horizontal = TRUE,
+        main = "Boxplot of Final Scores", xlab = "Final Score")
+# ✅ Visualization 5: Barplot - Internal vs Final Score (with all IDs)
+barplot_data <- rbind(student_data$internal_score, student_data$final_score)
+barplot(barplot_data,
+        beside = TRUE, col = c("green", "blue"),
+        names.arg = as.character(student_data$student_id),  # shows 1 to 20 as strings
+        legend.text = c("Internal Score", "Final Score"),
+        args.legend = list(x = "topright"),
+        main = "Internal vs Final Scores",
+        xlab = "Student ID", ylab = "Scores", las = 2)
+
+
+cat("✅ Project Completed: Student performance analysis completed using R with Indian student names and visualized score distribution.\n")
